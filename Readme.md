@@ -1,3 +1,14 @@
-# Repositorio base
+#Solucion Taller 4 2024 
 
-Este repositorio tiene las configuraciones y librerías necesarias para trabajar concurrencia
+Programacion Funcional y Concurrente
+
+Docente: Carlos Delgado Saavedra
+
+Autores: 
+Kevin Andrés Bejarano - 2067678
+Juan David Gutierrez - 2060104
+Johan Sebastian Acosta - 2380393
+
+
+
+
