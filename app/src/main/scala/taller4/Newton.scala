@@ -1,8 +1,4 @@
-/**
- * Taller 4 - Programación Funcional
- * Autores: Kevin Andres Bejarano-2067678,Juan david Gutierrez-2060104,Johan Sebastian Acosta-2380393
- * Profesor: Carlos A Delgado
- */
+
 package taller4
 
 import org.scalameter.measure
@@ -35,9 +31,9 @@ object Newton{
 
   def evaluar(f:Expr,a:Atomo , v: Double):Double = f match {
     case Numero(d) => d.toDouble
-    case Atomo(x) => v
-    case Suma(e1, e2) => (evaluar(e1,a,v) + evaluar(e1,a,v))
-    case Prod(e1, e2) => (evaluar(e1,a,v)* evaluar(e2,a,v))
+    case Atomo(x) => if (x == a.x) v else 0
+    case Suma(e1, e2) => (evaluar(e1,a,v) + evaluar(e2,a,v))
+    case Prod(e1, e2) => (evaluar(e1,a,v) * evaluar(e2,a,v))
     case Resta(e1, e2) => (evaluar(e1,a,v) - evaluar(e2,a,v))
     case Div(e1, e2) => (evaluar(e1,a,v) / evaluar(e2,a,v))
     case Logaritmo(e1) => scala.math.log(evaluar(e1,a,v))
@@ -76,6 +72,11 @@ object Newton{
     scala.math.abs(fx) < 0.001
   }
 
-
-
+  def main(args: Array[String]): Unit = {
+    println(
+      withWarmer(new Warmer.Default) measure {
+        (1 to 100000000).toArray
+      }
+    )
+  }
  }

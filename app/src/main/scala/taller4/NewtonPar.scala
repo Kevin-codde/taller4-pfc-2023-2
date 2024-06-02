@@ -1,8 +1,4 @@
-/**
- * Taller 4 - Programación Funcional
- * Autores: Kevin Andres Bejarano-2067678,Juan david Gutierrez-2060104,Johan Sebastian Acosta-2380393
- * Profesor: Carlos A Delgado
- */
+
 package taller4
 
 import org.scalameter.measure
@@ -57,7 +53,7 @@ object NewtonPar{
 
   def evaluar(f: Expr, a: Atomo, v: Double): Double = f match {
     case Numero(d) => d
-    case Atomo(x) => v
+    case Atomo(x) => if (x == a.x) v else 0
     case Suma(e1, e2) => 
       val (resul1, resul2) = parallel(evaluar(e1, a, v), evaluar(e2, a, v))
       resul1 + resul2
@@ -79,28 +75,28 @@ object NewtonPar{
   def limpiar(f: Expr): Expr = f match {
     case Numero(d) => Numero(d)
     case Atomo(ato) => Atomo(ato)
-    case Suma(e1, e2) =>
+    case Suma(e1, e2) => 
       val (resul1, resul2) = parallel(limpiar(e1), limpiar(e2))
       if (resul1 == Numero(0)) resul2
       else if (resul2 == Numero(0)) resul1
       else Suma(resul1, resul2)
-    case Prod(e1, e2) =>
+    case Prod(e1, e2) => 
       val (resul1, resul2) = parallel(limpiar(e1), limpiar(e2))
       if (resul1 == Numero(1)) resul2
       else if (resul2 == Numero(1)) resul1
       else if (resul1 == Numero(0) || resul2 == Numero(0)) Numero(0)
       else Prod(resul1, resul2)
-    case Resta(e1, e2) =>
+    case Resta(e1, e2) => 
       val (resul1, resul2) = parallel(limpiar(e1), limpiar(e2))
       if (resul1 == Numero(0)) resul2
       else if (resul2 == Numero(0)) resul1
       else Resta(resul1, resul2)
-    case Div(e1, e2) =>
+    case Div(e1, e2) => 
       val resul2 = limpiar(e2)
       if (limpiar(e2) == Numero(1)) limpiar(e1)
       else Div(limpiar(e1), resul2)
     case Logaritmo(e1) => Logaritmo(limpiar(e1))
-    case Expo(e1, e2) =>
+    case Expo(e1, e2) => 
       val (resul1, resul2) = parallel(limpiar(e1), limpiar(e2))
       Expo(resul1, resul2)
   }
@@ -127,8 +123,12 @@ object NewtonPar{
     val fx = evaluar(f, a, x)
     scala.math.abs(fx) < 0.001
   }
-}
 
-
-
-
+  def main(args: Array[String]): Unit = {
+    println(
+      withWarmer(new Warmer.Default) measure {
+        (1 to 100000000).toArray
+      }
+    )
+  }
+ }
